@@ -26,118 +26,164 @@ export default function App() {
   const finalTotal = total - (total * discount) / 100;
 
   return (
-    <div className="app-wrapper">
-      <h2 className="text-center">Shopping Cart</h2>
+    <div>
+      <nav className="navbar navbar-expand-lg">
+        <div className="text-center w-100">Shopping Cart</div>
+      </nav>
 
-      {/* Products */}
-      <div className="products-block">
-        <h3>All Products</h3>
-        <div className="row product-list">
-          {products.map((p, index) => (
-            <div key={p.id} className="col-md-4 mb-3">
-              <div className="custom-card card">
-                <div className="card-body text-center">
-                  <h4>{p.name}</h4>
-                  <p>${p.price}</p>
+      <div className="main-wrapper">
+        <div className="products-block">
+          <h3>All Products</h3>
+          <div className="row product-list">
+            {products.map((p, idx) => (
+              <div key={p.id} className="col-md-4 mb-3">
+                <div className="custom-card card">
+                  <div className="card-body text-center">
+                    <h4>{p.name}</h4>
+                    <p>
+                      <strong>${p.price}</strong>
+                    </p>
 
-                  <button
-                    className="btn btn-primary"
-                    data-testid={`add-${index}`}
-                    onClick={() => dispatch(addToCart(p))}
-                  >
-                    Add to Cart
-                  </button>
+                    <button
+                      className="btn btn-primary"
+                      data-testid={`add-${idx}`}
+                      onClick={() => dispatch(addToCart(p))}
+                    >
+                      Add to Cart
+                    </button>
 
-                  <button
-                    className="ml-2 wishlist-btn"
-                    data-testid={`wish-${index}`}
-                    onClick={() => dispatch(toggleWishlist(p))}
-                  >
-                    <span className="MuiButton-label">
-                      {wishlist.find((i) => i.id === p.id)
-                        ? "Remove from Wishlist"
-                        : "Add to Wishlist"}
-                    </span>
-                  </button>
+                    <button
+                      className="ml-2 wishlist-btn"
+                      data-testid={`wish-${idx}`}
+                      onClick={() => dispatch(toggleWishlist(p))}
+                    >
+                      <span className="MuiButton-label">
+                        {wishlist.find((i) => i.id === p.id)
+                          ? "Remove from Wishlist"
+                          : "Add to Wishlist"}
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Cart */}
-      <div className="cart-block mt-4">
-        <h3>Cart</h3>
-        {cart.map((item) => (
-          <div key={item.id} className="cart-item mb-2">
-            <span>
-              {item.name} - ${item.price}
-            </span>
-
-            <div className="input-group-append">
-              <button
-                className="btn"
-                onClick={() => dispatch(increase(item.id))}
-              >
-                +
-              </button>
-              <span className="mx-2">{item.qty}</span>
-              <button
-                className="btn"
-                onClick={() => dispatch(decrease(item.id))}
-              >
-                -
-              </button>
-            </div>
-
-            <button
-              className="btn btn-danger ml-2"
-              onClick={() => dispatch(removeFromCart(item.id))}
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-
-        <h3>Total: ${finalTotal}</h3>
-
-        <div className="coupon-wrap mt-3" style={{ maxWidth: "380px" }}>
-          <div className="input-group">
-            <input
-              id="coupon"
-              className="form-control"
-              placeholder="Enter coupon"
-            />
-            <div className="input-group-append">
-              <button
-                className="btn btn-dark"
-                onClick={() =>
-                  dispatch(applyCoupon(document.getElementById("coupon").value))
-                }
-              >
-                Apply
-              </button>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
 
-      {/* Wishlist */}
-      <div className="wishlist-block mt-4">
-        <h3>Wishlist</h3>
-        <div className="wishlist-list">
-          {wishlist.length === 0 ? (
-            <h4>Wishlist empty</h4>
-          ) : (
-            wishlist.map((item) => (
+        <div className="cart-block mt-4">
+          <h3>Cart</h3>
+
+          <div className="cart-list">
+            {cart.length === 0 && (
+              <div className="custom-card card mb-2">
+                <div className="card-body text-center">
+                  <h4>No items in cart</h4>
+                </div>
+              </div>
+            )}
+
+            {cart.map((item) => (
               <div key={item.id} className="custom-card card mb-2">
                 <div className="card-body text-center">
                   <h4>{item.name}</h4>
+                  <p>
+                    ${item.price} <strong>{item.qty}</strong>
+                  </p>
+
+                  <div
+                    className="input-group"
+                    style={{ display: "inline-flex", alignItems: "center" }}
+                  >
+                    <input
+                      type="text"
+                      className="form-control"
+                      readOnly
+                      value={item.qty}
+                      style={{ width: 60, textAlign: "center" }}
+                    />
+                    <div
+                      className="input-group-append"
+                      style={{ display: "inline-flex", marginLeft: 8 }}
+                    >
+                      <button
+                        className="btn"
+                        onClick={() => dispatch(increase(item.id))}
+                        data-testid={`inc-${item.id}`}
+                        style={{ marginRight: 6 }}
+                      >
+                        +
+                      </button>
+                      <button
+                        className="btn"
+                        onClick={() => dispatch(decrease(item.id))}
+                        data-testid={`dec-${item.id}`}
+                      >
+                        -
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    className="remove-action ml-2"
+                    onClick={() => dispatch(removeFromCart(item.id))}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
-            ))
-          )}
+            ))}
+          </div>
+
+          <h3>Total: ${finalTotal}</h3>
+
+          <div className="coupon-wrap mt-3" style={{ maxWidth: 380 }}>
+            <div className="input-group">
+              <input
+                id="coupon"
+                className="form-control"
+                placeholder="Enter coupon"
+              />
+              <div className="input-group-append">
+                <button
+                  className="btn btn-dark"
+                  onClick={() =>
+                    dispatch(
+                      applyCoupon(document.getElementById("coupon").value)
+                    )
+                  }
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="wishlist-block mt-4">
+          <h3>Wishlist</h3>
+          <div className="wishlist-list">
+            {wishlist.length === 0 ? (
+              <div className="custom-card card mb-2">
+                <div className="card-body text-center">
+                  <h4>Wishlist empty</h4>
+                </div>
+              </div>
+            ) : (
+              wishlist.map((item) => (
+                <div key={item.id} className="custom-card card mb-2">
+                  <div className="card-body text-center">
+                    <h4>{item.name}</h4>
+                    <button
+                      className="ml-2 remove-wish"
+                      onClick={() => dispatch(toggleWishlist(item))}
+                    >
+                      <span className="MuiButton-label">Remove</span>
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>
