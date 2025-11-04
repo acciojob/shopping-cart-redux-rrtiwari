@@ -1,4 +1,5 @@
 import React from "react";
+import "./../styles/App.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
@@ -8,7 +9,6 @@ import {
 } from "../Redux/CartSlice";
 import { toggleWishlist } from "../Redux/WishlistSlice";
 import { applyCoupon } from "../Redux/CouponSlice";
-import "../styles/App.css";
 
 const products = [
   { id: 1, name: "Shoes", price: 100 },
@@ -26,29 +26,27 @@ export default function App() {
   const finalTotal = total - (total * discount) / 100;
 
   return (
-    <div className="container">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <span className="text-center w-100">Shopping Cart</span>
-        </div>
+    <div className="container mt-3">
+      <nav className="navbar navbar-expand-lg bg-light mb-4">
+        <h1 className="text-center w-100">Shopping Cart</h1>
       </nav>
 
-      <h2 className="text-center">Products</h2>
+      <h2>Products</h2>
       <div className="row">
         {products.map((p) => (
-          <div key={p.id} className="col-md-4">
+          <div key={p.id} className="col-md-4 mb-3">
             <div className="custom-card card">
-              <div className="card-body text-center">
+              <div className="card-body">
                 <h4>{p.name}</h4>
                 <p>${p.price}</p>
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary me-2"
                   onClick={() => dispatch(addToCart(p))}
                 >
                   Add to Cart
                 </button>
                 <button
-                  className="btn btn-outline-secondary wishlist-btn"
+                  className="btn btn-outline-secondary"
                   onClick={() => dispatch(toggleWishlist(p))}
                 >
                   {wishlist.find((i) => i.id === p.id)
@@ -61,97 +59,60 @@ export default function App() {
         ))}
       </div>
 
-      <h2 className="text-center">Cart</h2>
-      <div className="row">
-        {cart.length === 0 && (
-          <div className="col-12">
-            <div className="custom-card card">
-              <div className="card-body text-center">
-                <h4>No items in cart</h4>
-              </div>
-            </div>
+      <h2>Cart</h2>
+      {cart.map((item) => (
+        <div key={item.id} className="custom-card card mb-2">
+          <div className="card-body">
+            <h4>{item.name}</h4>
+            <p>
+              ${item.price} x {item.qty}
+            </p>
+            <button
+              className="btn btn-success me-2"
+              onClick={() => dispatch(increase(item.id))}
+            >
+              +
+            </button>
+            <button
+              className="btn btn-warning me-2"
+              onClick={() => dispatch(decrease(item.id))}
+            >
+              -
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => dispatch(removeFromCart(item.id))}
+            >
+              Remove
+            </button>
           </div>
-        )}
-        {cart.map((item) => (
-          <div key={item.id} className="col-12">
-            <div className="custom-card card">
-              <div className="card-body text-center">
-                <h4>{item.name}</h4>
-                <p>
-                  ${item.price} x {item.qty}
-                </p>
-                <button
-                  className="btn btn-success"
-                  onClick={() => dispatch(increase(item.id))}
-                >
-                  +
-                </button>
-                <button
-                  className="btn btn-warning"
-                  onClick={() => dispatch(decrease(item.id))}
-                >
-                  -
-                </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => dispatch(removeFromCart(item.id))}
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+        </div>
+      ))}
 
-      <h3 className="text-center">Total: ${finalTotal}</h3>
+      <h3>Total: ${finalTotal}</h3>
 
-      <div
-        className="coupon-wrap"
-        style={{ maxWidth: 360, margin: "12px auto" }}
+      <input
+        id="coupon"
+        className="form-control mb-2"
+        placeholder="Enter coupon"
+      />
+      <button
+        className="btn btn-dark"
+        onClick={() =>
+          dispatch(applyCoupon(document.getElementById("coupon").value))
+        }
       >
-        <input
-          id="coupon"
-          className="form-control"
-          placeholder="Enter coupon"
-        />
-        <button
-          className="btn btn-info w-100 apply-btn"
-          onClick={() =>
-            dispatch(applyCoupon(document.getElementById("coupon").value))
-          }
-        >
-          Apply
-        </button>
-      </div>
+        Apply
+      </button>
 
-      <h2 className="text-center">Wishlist</h2>
-      <div className="row">
-        {wishlist.length === 0 && (
-          <div className="col-12">
-            <div className="custom-card card">
-              <div className="card-body text-center">
-                <h4>Wishlist empty</h4>
-              </div>
-            </div>
+      <h2 className="mt-4">Wishlist</h2>
+      {wishlist.map((item) => (
+        <div key={item.id} className="custom-card card mb-2">
+          <div className="card-body">
+            <h4>{item.name}</h4>
           </div>
-        )}
-        {wishlist.map((item) => (
-          <div key={item.id} className="col-12">
-            <div className="custom-card card">
-              <div className="card-body text-center">
-                <h4>{item.name}</h4>
-                <button
-                  className="btn btn-outline-secondary"
-                  onClick={() => dispatch(toggleWishlist(item))}
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }
