@@ -6,9 +6,9 @@ import {
   removeFromCart,
   increase,
   decrease,
-} from "../Redux/cartSlice";
-import { toggleWishlist } from "../Redux/wishlistSlice";
-import { applyCoupon } from "../Redux/couponSlice";
+} from "../Redux/CartSlice";
+import { toggleWishlist } from "../Redux/WishlistSlice";
+import { applyCoupon } from "../Redux/CouponSlice";
 
 const products = [
   { id: 1, name: "Shoes", price: 100 },
