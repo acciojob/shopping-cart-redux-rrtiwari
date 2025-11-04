@@ -31,7 +31,7 @@ export default function App() {
         <h1 className="text-center w-100">Shopping Cart</h1>
       </nav>
 
-      <h2>Products</h2>
+      <h3>Products</h3>
       <div className="row">
         {products.map((p) => (
           <div key={p.id} className="col-md-4 mb-3">
@@ -59,7 +59,7 @@ export default function App() {
         ))}
       </div>
 
-      <h2>Cart</h2>
+      <h3>Cart</h3>
       {cart.map((item) => (
         <div key={item.id} className="custom-card card mb-2">
           <div className="card-body">
@@ -68,12 +68,14 @@ export default function App() {
               ${item.price} x {item.qty}
             </p>
             <button
+              data-testid="increase-btn"
               className="btn btn-success me-2"
               onClick={() => dispatch(increase(item.id))}
             >
               +
             </button>
             <button
+              data-testid="decrease-btn"
               className="btn btn-warning me-2"
               onClick={() => dispatch(decrease(item.id))}
             >
@@ -105,11 +107,17 @@ export default function App() {
         Apply
       </button>
 
-      <h2 className="mt-4">Wishlist</h2>
+      <h3 className="mt-4">Wishlist</h3>
       {wishlist.map((item) => (
         <div key={item.id} className="custom-card card mb-2">
           <div className="card-body">
             <h4>{item.name}</h4>
+            <button
+              className="btn btn-danger"
+              onClick={() => dispatch(toggleWishlist(item))}
+            >
+              Remove
+            </button>
           </div>
         </div>
       ))}
