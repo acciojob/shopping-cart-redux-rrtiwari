@@ -27,61 +27,66 @@ export default function App() {
 
   return (
     <div className="container">
-      <h1>Shopping App</h1>
+      <nav className="navbar-expand-lg">
+        <h1 className="text-center">Shopping cart</h1>
+      </nav>
 
-      <h2 className="section-title">Products</h2>
-      <div className="list">
+      <h2>Products</h2>
+      <div className="row">
         {products.map((p) => (
-          <div className="row" key={p.id}>
-            <span>
-              {p.name} - ${p.price}
-            </span>
-            <div className="buttons">
-              <button onClick={() => dispatch(addToCart(p))}>
-                Add to Cart
-              </button>
-              <button onClick={() => dispatch(toggleWishlist(p))}>
-                {wishlist.find((i) => i.id === p.id)
-                  ? "Remove from Wishlist"
-                  : "Add to Wishlist"}
-              </button>
+          <div key={p.id} className="col-4">
+            <div className="custom-card card">
+              <div className="card-body text-center">
+                <h5 className="card-title">{p.name}</h5>
+                <p className="card-text">${p.price}</p>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => dispatch(addToCart(p))}
+                >
+                  Add to Cart
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => dispatch(toggleWishlist(p))}
+                >
+                  {wishlist.find((i) => i.id === p.id)
+                    ? "Remove from Wishlist"
+                    : "Add to Wishlist"}
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      <h2 className="section-title">Cart</h2>
-      <div className="cart">
-        {cart.map((item) => (
-          <div className="row" key={item.id}>
-            <span>
+      <h2>Cart</h2>
+      {cart.map((item) => (
+        <div key={item.id} className="custom-card card">
+          <div className="card-body">
+            <h5>
               {item.name} - ${item.price} x {item.qty}
-            </span>
-            <div className="buttons">
-              <button
-                className="quantity-btn"
-                onClick={() => dispatch(increase(item.id))}
-              >
-                +
-              </button>
-              <button
-                className="quantity-btn"
-                onClick={() => dispatch(decrease(item.id))}
-              >
-                -
-              </button>
-              <button onClick={() => dispatch(removeFromCart(item.id))}>
-                Remove
-              </button>
-            </div>
+            </h5>
+            <button className="btn" onClick={() => dispatch(increase(item.id))}>
+              +
+            </button>
+            <button className="btn" onClick={() => dispatch(decrease(item.id))}>
+              -
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => dispatch(removeFromCart(item.id))}
+            >
+              Remove
+            </button>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
 
-      <div className="total-box">Total: ${finalTotal}</div>
+      <h3>Total: ${finalTotal}</h3>
 
-      <input id="coupon" placeholder="Enter coupon" />
+      <input id="coupon" placeholder="Enter coupon" className="form-control" />
       <button
+        className="btn btn-success"
         onClick={() =>
           dispatch(applyCoupon(document.getElementById("coupon").value))
         }
@@ -89,14 +94,14 @@ export default function App() {
         Apply
       </button>
 
-      <h2 className="section-title">Wishlist</h2>
-      <div className="wishlist">
-        {wishlist.map((item) => (
-          <div className="row" key={item.id}>
-            <span>{item.name}</span>
+      <h2>Wishlist</h2>
+      {wishlist.map((item) => (
+        <div key={item.id} className="custom-card card">
+          <div className="card-body">
+            <h5>{item.name}</h5>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }

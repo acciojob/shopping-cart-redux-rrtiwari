@@ -1,91 +1,40 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f2f5f9;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
+  background: #f4f4f4;
 }
 
 .container {
-  width: 90%;
-  max-width: 800px;
-  background: #ffffff;
-  padding: 30px;
-  margin-top: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
 }
 
-h1 {
+h1,
+h2,
+h3 {
   text-align: center;
-  font-size: 26px;
   margin-bottom: 20px;
 }
 
-.section-title {
-  font-size: 20px;
-  margin-top: 30px;
-  margin-bottom: 10px;
-  padding-bottom: 6px;
-  border-bottom: 2px solid #ddd;
+.custom-card {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.list .row, .cart .row, .wishlist .row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 0;
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.list .row span,
-.cart .row span,
-.wishlist .row span {
-  font-size: 17px;
-  flex: 1;
-}
-
-.list .row button,
-.cart .row button,
-.wishlist .row button {
-  margin-left: 12px;
+.card-body {
+  text-align: center;
 }
 
 button {
+  margin: 5px;
   padding: 8px 14px;
-  background: #0077ff;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.25s;
+  border-radius: 5px;
 }
 
-button:hover {
-  background: #005bcc;
-}
-
-.quantity-btn {
-  padding: 6px 12px;
-  background: #444;
-}
-
-input {
-  padding: 8px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.total-box {
-  margin-top: 20px;
-  padding: 12px;
-  background: #e9f2ff;
-  border-radius: 6px;
-  font-size: 18px;
-  font-weight: 600;
-  text-align: right;
+.form-control {
+  margin: 10px 0;
+  padding: 8px;
 }
