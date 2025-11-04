@@ -38,3 +38,8 @@ button {
   margin: 10px 0;
   padding: 8px;
 }
+.ml-2 { margin-left: 0.5rem; }
+.MuiButton-label { display: inline-block; }
+.input-group-append .btn { margin: 0 2px; }
+.wishlist-btn, .remove-wish { padding: 8px 12px; border-radius: 6px; background:#f3f3f3; border:1px solid #ddd; cursor:pointer; }
+
