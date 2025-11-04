@@ -27,29 +27,35 @@ export default function App() {
 
   return (
     <div className="container">
-      <h1 className="text-center">Shopping Cart</h1>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
+          <span className="text-center w-100">Shopping Cart</span>
+        </div>
+      </nav>
 
       <h2 className="text-center">Products</h2>
       <div className="row">
         {products.map((p) => (
-          <div key={p.id} className="col-12 custom-card card">
-            <div className="card-body text-center">
-              <h4>{p.name}</h4>
-              <p>${p.price}</p>
-              <button
-                className="btn btn-primary"
-                onClick={() => dispatch(addToCart(p))}
-              >
-                Add to Cart
-              </button>
-              <button
-                className="btn btn-secondary"
-                onClick={() => dispatch(toggleWishlist(p))}
-              >
-                {wishlist.find((i) => i.id === p.id)
-                  ? "Remove from Wishlist"
-                  : "Add to Wishlist"}
-              </button>
+          <div key={p.id} className="col-md-4">
+            <div className="custom-card card">
+              <div className="card-body text-center">
+                <h4>{p.name}</h4>
+                <p>${p.price}</p>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => dispatch(addToCart(p))}
+                >
+                  Add to Cart
+                </button>
+                <button
+                  className="btn btn-outline-secondary wishlist-btn"
+                  onClick={() => dispatch(toggleWishlist(p))}
+                >
+                  {wishlist.find((i) => i.id === p.id)
+                    ? "Remove from Wishlist"
+                    : "Add to Wishlist"}
+                </button>
+              </div>
             </div>
           </div>
         ))}
@@ -57,31 +63,42 @@ export default function App() {
 
       <h2 className="text-center">Cart</h2>
       <div className="row">
+        {cart.length === 0 && (
+          <div className="col-12">
+            <div className="custom-card card">
+              <div className="card-body text-center">
+                <h4>No items in cart</h4>
+              </div>
+            </div>
+          </div>
+        )}
         {cart.map((item) => (
-          <div key={item.id} className="col-12 custom-card card">
-            <div className="card-body text-center">
-              <h4>{item.name}</h4>
-              <p>
-                ${item.price} x {item.qty}
-              </p>
-              <button
-                className="btn btn-success"
-                onClick={() => dispatch(increase(item.id))}
-              >
-                +
-              </button>
-              <button
-                className="btn btn-warning"
-                onClick={() => dispatch(decrease(item.id))}
-              >
-                -
-              </button>
-              <button
-                className="btn btn-danger"
-                onClick={() => dispatch(removeFromCart(item.id))}
-              >
-                Remove
-              </button>
+          <div key={item.id} className="col-12">
+            <div className="custom-card card">
+              <div className="card-body text-center">
+                <h4>{item.name}</h4>
+                <p>
+                  ${item.price} x {item.qty}
+                </p>
+                <button
+                  className="btn btn-success"
+                  onClick={() => dispatch(increase(item.id))}
+                >
+                  +
+                </button>
+                <button
+                  className="btn btn-warning"
+                  onClick={() => dispatch(decrease(item.id))}
+                >
+                  -
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => dispatch(removeFromCart(item.id))}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           </div>
         ))}
@@ -89,22 +106,48 @@ export default function App() {
 
       <h3 className="text-center">Total: ${finalTotal}</h3>
 
-      <input id="coupon" className="form-control" placeholder="Enter coupon" />
-      <button
-        className="btn btn-info w-100"
-        onClick={() =>
-          dispatch(applyCoupon(document.getElementById("coupon").value))
-        }
+      <div
+        className="coupon-wrap"
+        style={{ maxWidth: 360, margin: "12px auto" }}
       >
-        Apply
-      </button>
+        <input
+          id="coupon"
+          className="form-control"
+          placeholder="Enter coupon"
+        />
+        <button
+          className="btn btn-info w-100 apply-btn"
+          onClick={() =>
+            dispatch(applyCoupon(document.getElementById("coupon").value))
+          }
+        >
+          Apply
+        </button>
+      </div>
 
       <h2 className="text-center">Wishlist</h2>
       <div className="row">
+        {wishlist.length === 0 && (
+          <div className="col-12">
+            <div className="custom-card card">
+              <div className="card-body text-center">
+                <h4>Wishlist empty</h4>
+              </div>
+            </div>
+          </div>
+        )}
         {wishlist.map((item) => (
-          <div key={item.id} className="col-12 custom-card card">
-            <div className="card-body text-center">
-              <h4>{item.name}</h4>
+          <div key={item.id} className="col-12">
+            <div className="custom-card card">
+              <div className="card-body text-center">
+                <h4>{item.name}</h4>
+                <button
+                  className="btn btn-outline-secondary"
+                  onClick={() => dispatch(toggleWishlist(item))}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           </div>
         ))}
