@@ -8,6 +8,7 @@ import {
 } from "../Redux/CartSlice";
 import { toggleWishlist } from "../Redux/WishlistSlice";
 import { applyCoupon } from "../Redux/CouponSlice";
+import "../styles/App.css";
 
 const products = [
   { id: 1, name: "Shoes", price: 100 },
@@ -26,54 +27,91 @@ export default function App() {
   const finalTotal = total - (total * discount) / 100;
 
   return (
-    <div>
-      <h1>Shopping Cart</h1>
+    <div className="container">
+      <nav className="navbar navbar-expand-lg bg-light mb-3">
+        <h1 className="text-center w-100">Shopping Cart</h1>
+      </nav>
 
       <h3>Products</h3>
       {products.map((p) => (
-        <div key={p.id}>
-          <span>
-            {p.name} - ${p.price}
-          </span>
-          <button onClick={() => dispatch(addToCart(p))}>Add to Cart</button>
-          <button onClick={() => dispatch(toggleWishlist(p))}>
-            {wishlist.find((w) => w.id === p.id)
-              ? "Remove from Wishlist"
-              : "Add to Wishlist"}
-          </button>
+        <div key={p.id} className="custom-card card mb-2">
+          <div className="card-body">
+            <h4>
+              {p.name} - ${p.price}
+            </h4>
+            <button
+              className="btn btn-primary me-2"
+              onClick={() => dispatch(addToCart(p))}
+            >
+              Add to Cart
+            </button>
+            <button
+              className="btn btn-secondary"
+              onClick={() => dispatch(toggleWishlist(p))}
+            >
+              {wishlist.find((w) => w.id === p.id)
+                ? "Remove from Wishlist"
+                : "Add to Wishlist"}
+            </button>
+          </div>
         </div>
       ))}
 
       <h3>Cart</h3>
       {cart.map((item) => (
-        <div key={item.id}>
-          <span>
-            {item.name} - ${item.price} x {item.qty}
-          </span>
-          <button onClick={() => dispatch(increase(item.id))}>+</button>
-          <button onClick={() => dispatch(decrease(item.id))}>-</button>
-          <button onClick={() => dispatch(removeFromCart(item.id))}>
-            Remove
-          </button>
+        <div key={item.id} className="custom-card card mb-2">
+          <div className="card-body">
+            <h4>
+              {item.name} - ${item.price} x {item.qty}
+            </h4>
+            <button
+              className="btn btn-success me-2"
+              onClick={() => dispatch(increase(item.id))}
+            >
+              +
+            </button>
+            <button
+              className="btn btn-warning me-2"
+              onClick={() => dispatch(decrease(item.id))}
+            >
+              -
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => dispatch(removeFromCart(item.id))}
+            >
+              Remove
+            </button>
+          </div>
         </div>
       ))}
 
       <h3>Total: ${finalTotal}</h3>
-
       <input
+        className="form-control mb-2"
         value={code}
         onChange={(e) => setCode(e.target.value)}
         placeholder="Enter coupon"
       />
-      <button onClick={() => dispatch(applyCoupon(code))}>Apply</button>
+      <button
+        className="btn btn-dark mb-3"
+        onClick={() => dispatch(applyCoupon(code))}
+      >
+        Apply
+      </button>
 
       <h3>Wishlist</h3>
       {wishlist.map((item) => (
-        <div key={item.id}>
-          <span>{item.name}</span>
-          <button onClick={() => dispatch(toggleWishlist(item))}>
-            Remove from Wishlist
-          </button>
+        <div key={item.id} className="custom-card card mb-2">
+          <div className="card-body">
+            <h4>{item.name}</h4>
+            <button
+              className="btn btn-secondary"
+              onClick={() => dispatch(toggleWishlist(item))}
+            >
+              Remove from Wishlist
+            </button>
+          </div>
         </div>
       ))}
     </div>
